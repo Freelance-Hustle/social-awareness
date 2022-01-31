@@ -1,0 +1,26 @@
+.register-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100vh - (5rem + 10rem));
+
+	.register-card {
+		max-width: 30rem;
+		min-width: 25rem;
+		min-height: 27rem;
+;
+
+		.register-form {
+			display: flex;
+			flex-direction: column;
+			border: 2px solid #000;
+			align-items: center;
+			justify-content: center;
+
+			label,
+			input {
+				display: block;
+			}
+		}
+	}
+}
