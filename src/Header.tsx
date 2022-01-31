@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavLink, RouteComponentProps } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-const Header: React.FC<RouteComponentProps> = props => {
+const Header: React.FC = () => {
 	return (
 		<header className="header">
 			<nav>
