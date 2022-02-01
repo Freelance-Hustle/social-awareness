@@ -13,6 +13,7 @@ a {
 .label {
 	width: 100%;
 	padding: 10px;
+	display: inline-block;
 }
 
 .form-control {
@@ -20,7 +21,10 @@ a {
 	padding: 10px;
 	outline: none;
 	background-color: transparent;
-	border: 1px solid #7e7e7e;
+	border: 1px solid #aaa;
+	font-size: 1rem;
+	resize: none;
+	border-radius: 3px;
 }
 
 .btn {
@@ -41,5 +45,62 @@ a {
 
 	&.btn-outline {
 		background-color: transparent;
+	}
+}
+
+.home {
+	background-color: #efefef;
+	min-height: calc(100vh - 12rem);
+	padding: 10px 0;
+}
+
+/* POST */
+.posts-wrapper {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 500px));
+	grid-gap: 20px;
+	padding: 10px;
+	justify-content: center;
+}
+
+.post {
+	background-color: #fff;
+	width: 100%;
+	min-height: 100px;
+	box-shadow: 1px 1px 100px rgba(196, 196, 196, 0.2);
+	padding: 10px;
+	border-radius: 5px;
+
+	.post-title {
+		> h1 {
+			font-size: 2.5rem;
+			font-weight: bold;
+			margin-bottom: 10px;
+			text-transform: capitalize;
+		}
+	}
+
+	.post-body {
+		font-size: 1rem;
+		margin-bottom: 10px;
+	}
+
+	.post-footer {
+		display: flex;
+		justify-content: space-between;
+
+		.btn {
+			max-width: 200px;
+			margin: 0;
+		}
+
+		.MuiButtonBase-root {
+			padding: 0;
+			cursor: pointer !important;
+		}
+
+		.MuiTouchRipple-root {
+			pointer-events: all;
+		}
 	}
 }
