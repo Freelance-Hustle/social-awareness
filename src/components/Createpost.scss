@@ -1,0 +1,30 @@
+.createpost-wrapper {
+	max-width: 800px;
+	margin: 10px auto;
+	background-color: #fff;
+	padding: 10px;
+	box-shadow: 1px 1px 100px rgba(196, 196, 196, 0.2);
+	border-radius: 5px;
+
+	.form-wrapper {
+		margin: 10px 0;
+
+		.label {
+			padding: 5px 0;
+		}
+	}
+
+	.form-footer {
+		display: flex;
+		justify-content: flex-end;
+
+		.MuiButtonBase-root {
+			padding: 0;
+			cursor: pointer !important;
+		}
+
+		.MuiTouchRipple-root {
+			pointer-events: all;
+		}
+	}
+}

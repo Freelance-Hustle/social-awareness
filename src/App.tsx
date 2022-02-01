@@ -7,11 +7,17 @@ import './App.scss';
 import { AppProvider } from './context';
 import { PostProps } from './components/Post';
 import { useSnackbar, SnackbarProvider } from 'notistack';
+import axios, { handleFetch } from './utils/axios';
 
 export type LoginCredentialsProps = {
 	id: string;
 	email: string;
 	name: string;
+};
+
+export type LoginProps = {
+	email: string;
+	password: string;
 };
 
 const App: React.FC = (): JSX.Element => {
@@ -22,10 +28,9 @@ const App: React.FC = (): JSX.Element => {
 
 	const addPost = async (post: PostProps): Promise<void> => {
 		try {
-			console.log(post)
+			console.log(post);
 			//TODO: add post to database
 			setPosts([...posts, post]);
-			
 		} catch (err: any) {
 			snack?.enqueueSnackbar(err.message, {
 				variant: 'error',
@@ -52,6 +57,21 @@ const App: React.FC = (): JSX.Element => {
 		}
 	};
 
+	const loginUser = async (user: LoginProps) => {
+		try {
+			const data = await handleFetch('/users/login', 'post', user)
+			// console.log(data);
+		} catch (err: any) {
+			snack?.enqueueSnackbar(err.message, {
+				variant: 'error',
+				anchorOrigin: {
+					vertical: 'top',
+					horizontal: 'right',
+				},
+			});
+		}
+	};
+
 	return (
 		<SnackbarProvider maxSnack={3}>
 			<AppProvider
@@ -60,6 +80,7 @@ const App: React.FC = (): JSX.Element => {
 					posts,
 					addPost,
 					deletePost,
+					loginUser,
 				}}
 			>
 				<div className="app-wrapper">

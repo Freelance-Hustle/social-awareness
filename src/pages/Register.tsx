@@ -9,10 +9,10 @@ const Register: React.FC = () => {
 		<div className="wrapper">
 			<div className="login-card">
 				<form onSubmit={signup} className="login-form">
-				<div className="login-top">
-					<Avatar src={`/users/:id`} />
-					<h1>Register</h1>
-				</div>
+					<div className="login-top">
+						<Avatar src={`/users/:id`} />
+						<h1>Register</h1>
+					</div>
 					<label htmlFor="username" className="login-label">
 						Username
 					</label>
@@ -53,8 +53,8 @@ const Register: React.FC = () => {
 						Register
 					</button>
 					<div className="form-links">
-					<span>Already have an account? </span>
-					<Link to="/login">Login</Link>
+						<span>Already have an account? </span>
+						<Link to="/login">Login</Link>
 					</div>
 				</form>
 			</div>
