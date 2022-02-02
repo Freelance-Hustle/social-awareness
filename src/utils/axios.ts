@@ -6,12 +6,12 @@ const axiosFetch = axios.create({ baseURL });
 
 export const handleFetch = async (
 	url: string,
-	path: 'get' | 'post' | 'patch' | 'put',
+	path: 'get' | 'post' | 'patch' | 'put'|'delete',
 	data?: any,
 	config?: AxiosRequestConfig<{}>
 ): Promise<any> => {
 	try {
-		if (path === 'get') {
+		if (path === 'get' || path==='delete') {
 			const res = await axiosFetch[path](url, config);
 
 			if (res.data.status !== 200) {

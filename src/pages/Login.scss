@@ -7,7 +7,8 @@
 	 */
 	min-height: calc(100vh - (5rem + 10rem));
 
-	.login-card {
+	.login-card {	margin: 4rem auto;
+
 		max-width: 30rem;
 		min-width: 25rem;
 		min-height: 27rem;

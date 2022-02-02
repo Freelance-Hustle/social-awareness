@@ -14,12 +14,14 @@ const Home: React.FC = () => {
 		}
 	}, [token, navigate]);
 
+	console.log('posts', posts)
+
 	return (
 		<div className="home">
 			<CreatePost />
 			<div className="posts-wrapper">
 				{posts.map(post => (
-					<Post key={post.id} post={post} />
+					<Post key={post._id} post={post} />
 				))}
 			</div>
 		</div>

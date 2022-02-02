@@ -4,13 +4,16 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context';
 
 export type PostProps = {
-	id: string;
+	_id?: string;
+	user?:string;
 	title: string;
 	content: string;
+	createdAt?:string;
+	updatedAt?:string;
 };
 
 const Post: React.FC<{ post: PostProps }> = props => {
-	const { deletePost } = useContext(AppContext);
+	const { deletePost, loginCredentials } = useContext(AppContext);
 
 	return (
 		<div className="post">
@@ -24,12 +27,12 @@ const Post: React.FC<{ post: PostProps }> = props => {
 				<IconButton title="Approve post">
 					<button className="btn btn-primary">Approve</button>
 				</IconButton>
-				<IconButton
+				{props.post?.user === loginCredentials!.id && <IconButton
 					title="Delete post"
-					onClick={async () => await deletePost?.(props.post.id)}
+					onClick={async () =>props.post._id&& await deletePost?.(props.post?._id)}
 				>
 					<DeleteSharp color="error" />
-				</IconButton>
+				</IconButton>}
 			</div>
 		</div>
 	);

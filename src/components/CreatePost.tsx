@@ -22,8 +22,8 @@ const CreatePost: React.FC = () => {
 	) => {
 		try {
 			e.preventDefault();
-			console.log('eee---', e);
-			await addPost?.({ ...post, id: `${id}` });
+			
+			await addPost?.(post);
 			setId(id + 1);
 		} catch (err: any) {
 			console.log(err);

@@ -39,7 +39,7 @@ const App: React.FC = (): JSX.Element => {
 			const fetchPosts = async () => {
 				const res = await handleFetch('/posts', 'get', {}, config(token));
 
-				setPosts([...posts, ...res.data]);
+				setPosts([...posts, 	...res.data.sort((a: any, b:any) => new Date(b.createdAt).getMilliseconds() - new Date(a.createdAt).getMilliseconds())]);
 			};
 
 			fetchPosts();
@@ -56,17 +56,17 @@ const App: React.FC = (): JSX.Element => {
 
 			const res = await handleFetch('/posts', 'post', post, config(token));
 
-			// if (res) {
-			// 	enqueueSnackbar(res.message, {
-			// 		variant: 'success',
-			// 		anchorOrigin: {
-			// 			horizontal: 'right',
-			// 			vertical: 'top',
-			// 		},
-			// 	});
-			// }
+			if (res) {
+				enqueueSnackbar(res.message, {
+					variant: 'success',
+					anchorOrigin: {
+						horizontal: 'right',
+						vertical: 'top',
+					},
+				});
+			}
 			//TODO: add post to database
-			setPosts([...posts, res.data]);
+			setPosts([ res.data, ...posts]);
 		} catch (err: any) {
 			enqueueSnackbar(err.message, {
 				variant: 'error',
@@ -80,8 +80,21 @@ const App: React.FC = (): JSX.Element => {
 
 	const deletePost = async (id: string): Promise<void> => {
 		try {
+			const res = await handleFetch(`/posts/${id}`, 'delete', {}, config(token));
+
+			if (res) {
+				enqueueSnackbar(res.message, {
+					variant: 'success',
+					anchorOrigin: {
+						horizontal: 'right',
+						vertical: 'top',
+					},
+				});
+			}
+
+			console.log('id====>', id)
 			//TODO: delete post from database
-			setPosts(posts.filter(post => post.id !== id));
+			setPosts(posts.filter(post => post._id !== id));
 		} catch (err: any) {
 			enqueueSnackbar(err.message, {
 				variant: 'error',
@@ -158,6 +171,8 @@ const App: React.FC = (): JSX.Element => {
 			},
 		});
 	};
+
+
 
 	return (
 		<AppProvider

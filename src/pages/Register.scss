@@ -7,7 +7,8 @@
 	.register-card {
 		max-width: 30rem;
 		min-width: 25rem;
-		min-height: 27rem;
+		min-height: 27rem;		margin: 4rem auto;
+
 		.register-form {
 			display: flex;
 			flex-direction: column;
