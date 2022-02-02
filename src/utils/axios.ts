@@ -11,18 +11,34 @@ export const handleFetch = async (
 	config?: AxiosRequestConfig<{}>
 ): Promise<any> => {
 	try {
-		const res = await axiosFetch[path](url, data, config);
+		if (path === 'get') {
+			const res = await axiosFetch[path](url, config);
 
-		// console.log('res', res);
+			if (res.data.status !== 200) {
+				throw Error(res.data?.message || 'Something went wrong!');
+			}
 
-		if (res.data.status !== 200) {
-			throw Error(res.data?.message || 'Something went wrong!');
+			return res.data;
+		} else {
+			const res = await axiosFetch[path](url, data, config);
+
+			if (res.data.status !== 200) {
+				throw Error(res.data?.message || 'Something went wrong!');
+			}
+
+			return res.data;
 		}
-
-		return res.data;
 	} catch (err: any) {
 		throw Error(err.message);
 	}
+};
+
+export const config = (token: string | null): AxiosRequestConfig => {
+	return {
+		headers: {
+			Authorization: `Bearer ${token ?? ''}`,
+		},
+	};
 };
 
 export default axiosFetch;

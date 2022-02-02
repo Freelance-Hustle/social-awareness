@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
@@ -7,7 +7,7 @@ import './App.scss';
 import { AppProvider } from './context';
 import { PostProps } from './components/Post';
 import { useSnackbar } from 'notistack';
-import { handleFetch } from './utils/axios';
+import { handleFetch, config } from './utils/axios';
 
 export type LoginCredentialsProps = {
 	id: string;
@@ -33,11 +33,40 @@ const App: React.FC = (): JSX.Element => {
 		useState<LoginCredentialsProps | null>(null);
 	const [posts, setPosts] = useState<PostProps[]>([]);
 
+	useEffect(() => {
+		if (token) {
+			console.log('token', token);
+			const fetchPosts = async () => {
+				const res = await handleFetch('/posts', 'get', {}, config(token));
+
+				setPosts([...posts, ...res.data]);
+			};
+
+			fetchPosts();
+		}
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [token]);
+
 	const addPost = async (post: PostProps): Promise<void> => {
 		try {
-			console.log(post);
+			if (!token) {
+				throw Error('Error: invalid user details!');
+			}
+
+			const res = await handleFetch('/posts', 'post', post, config(token));
+
+			// if (res) {
+			// 	enqueueSnackbar(res.message, {
+			// 		variant: 'success',
+			// 		anchorOrigin: {
+			// 			horizontal: 'right',
+			// 			vertical: 'top',
+			// 		},
+			// 	});
+			// }
 			//TODO: add post to database
-			setPosts([...posts, post]);
+			setPosts([...posts, res.data]);
 		} catch (err: any) {
 			enqueueSnackbar(err.message, {
 				variant: 'error',
