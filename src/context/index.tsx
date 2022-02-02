@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoginCredentialsProps, LoginProps } from '../App';
+import { LoginCredentialsProps, LoginProps, RegisterProps } from '../App';
 import { PostProps } from '../components/Post';
 
 export type AppContextProps = {
@@ -8,6 +8,7 @@ export type AppContextProps = {
 	posts: PostProps[];
 	addPost?: (post: PostProps) => Promise<void>;
 	deletePost?: (id: string) => Promise<void>;
+	registerUser?: (user: RegisterProps) => Promise<void>;
 	loginUser?: (user: LoginProps) => Promise<void>;
 	logOut?: () => void;
 };

@@ -61,6 +61,7 @@ const Login: React.FC = () => {
 						name="email"
 						value={user.email}
 						onChange={handleChange}
+						required
 					/>
 					<label htmlFor="password" className="login-label">
 						Password
@@ -73,6 +74,7 @@ const Login: React.FC = () => {
 						name="password"
 						value={user.password}
 						onChange={handleChange}
+						required
 					/>
 					<IconButton title="login to your account" onClick={handleSubmit}>
 						<button type="submit" className="btn btn-primary">

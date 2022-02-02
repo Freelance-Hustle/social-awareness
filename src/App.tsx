@@ -20,6 +20,12 @@ export type LoginProps = {
 	password: string;
 };
 
+export type RegisterProps = {
+	name: string;
+	email: string;
+	password: string;
+};
+
 const App: React.FC = (): JSX.Element => {
 	const { enqueueSnackbar } = useSnackbar();
 	const [token, setToken] = useState<string | null>(null);
@@ -53,6 +59,33 @@ const App: React.FC = (): JSX.Element => {
 				anchorOrigin: {
 					vertical: 'top',
 					horizontal: 'right',
+				},
+			});
+		}
+	};
+
+	const registerUser = async (user: RegisterProps) => {
+		try {
+			const res = await handleFetch('/users/register', 'post', user);
+
+			if (res) {
+				enqueueSnackbar(res.message, {
+					variant: 'success',
+					anchorOrigin: {
+						horizontal: 'right',
+						vertical: 'top',
+					},
+				});
+			}
+
+			setToken(res.data.token);
+			setLoginCredentials(res.data.user);
+		} catch (err: any) {
+			enqueueSnackbar(err.message, {
+				variant: 'error',
+				anchorOrigin: {
+					horizontal: 'right',
+					vertical: 'top',
 				},
 			});
 		}
@@ -105,6 +138,7 @@ const App: React.FC = (): JSX.Element => {
 				posts,
 				addPost,
 				deletePost,
+				registerUser,
 				loginUser,
 				logOut,
 			}}
