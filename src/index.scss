@@ -48,6 +48,27 @@ a {
 	}
 }
 
+// HEADER
+
+.header {
+	.nav {
+		display: flex;
+
+		.avatar-wrapper {
+			.avatar {
+				height: 30px;
+				width: 30px;
+				margin-right: 10px;
+			}
+
+			display: flex;
+			align-items: center;
+		}
+	}
+}
+
+// HOME
+
 .home {
 	background-color: #efefef;
 	min-height: calc(100vh - 12rem);

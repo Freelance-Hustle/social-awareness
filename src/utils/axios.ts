@@ -13,6 +13,8 @@ export const handleFetch = async (
 	try {
 		const res = await axiosFetch[path](url, data, config);
 
+		// console.log('res', res);
+
 		if (res.data.status !== 200) {
 			throw Error(res.data?.message || 'Something went wrong!');
 		}
@@ -23,5 +25,4 @@ export const handleFetch = async (
 	}
 };
 
-
-export default axiosFetch
+export default axiosFetch;

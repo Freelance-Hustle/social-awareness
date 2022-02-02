@@ -1,10 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CreatePost from '../components/CreatePost';
 import Post from '../components/Post';
 import { AppContext } from '../context';
 
 const Home: React.FC = () => {
-	const { posts } = useContext(AppContext);
+	const navigate = useNavigate();
+	const { posts, token } = useContext(AppContext);
+
+	useEffect(() => {
+		if (!token) {
+			navigate('/login');
+		}
+	}, [token, navigate]);
 
 	return (
 		<div className="home">

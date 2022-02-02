@@ -6,8 +6,8 @@ import Routes from './routes/Routes';
 import './App.scss';
 import { AppProvider } from './context';
 import { PostProps } from './components/Post';
-import { useSnackbar, SnackbarProvider } from 'notistack';
-import axios, { handleFetch } from './utils/axios';
+import { useSnackbar } from 'notistack';
+import { handleFetch } from './utils/axios';
 
 export type LoginCredentialsProps = {
 	id: string;
@@ -21,7 +21,8 @@ export type LoginProps = {
 };
 
 const App: React.FC = (): JSX.Element => {
-	const snack = useSnackbar();
+	const { enqueueSnackbar } = useSnackbar();
+	const [token, setToken] = useState<string | null>(null);
 	const [loginCredentials, setLoginCredentials] =
 		useState<LoginCredentialsProps | null>(null);
 	const [posts, setPosts] = useState<PostProps[]>([]);
@@ -32,7 +33,7 @@ const App: React.FC = (): JSX.Element => {
 			//TODO: add post to database
 			setPosts([...posts, post]);
 		} catch (err: any) {
-			snack?.enqueueSnackbar(err.message, {
+			enqueueSnackbar(err.message, {
 				variant: 'error',
 				anchorOrigin: {
 					vertical: 'top',
@@ -47,7 +48,7 @@ const App: React.FC = (): JSX.Element => {
 			//TODO: delete post from database
 			setPosts(posts.filter(post => post.id !== id));
 		} catch (err: any) {
-			snack?.enqueueSnackbar(err.message, {
+			enqueueSnackbar(err.message, {
 				variant: 'error',
 				anchorOrigin: {
 					vertical: 'top',
@@ -59,39 +60,63 @@ const App: React.FC = (): JSX.Element => {
 
 	const loginUser = async (user: LoginProps) => {
 		try {
-			const data = await handleFetch('/users/login', 'post', user)
-			// console.log(data);
+			const res = await handleFetch('/users/login', 'post', user);
+
+			if (res) {
+				enqueueSnackbar(res.message, {
+					variant: 'success',
+					anchorOrigin: {
+						horizontal: 'right',
+						vertical: 'top',
+					},
+				});
+			}
+
+			setToken(res.data.token);
+			setLoginCredentials(res.data.user);
 		} catch (err: any) {
-			snack?.enqueueSnackbar(err.message, {
+			enqueueSnackbar(err.message, {
 				variant: 'error',
 				anchorOrigin: {
-					vertical: 'top',
 					horizontal: 'right',
+					vertical: 'top',
 				},
 			});
 		}
 	};
 
+	const logOut = () => {
+		setLoginCredentials(null);
+		setToken(null);
+		enqueueSnackbar(`You have been logged out succesfully!`, {
+			variant: 'success',
+			anchorOrigin: {
+				horizontal: 'right',
+				vertical: 'top',
+			},
+		});
+	};
+
 	return (
-		<SnackbarProvider maxSnack={3}>
-			<AppProvider
-				value={{
-					loginCredentials,
-					posts,
-					addPost,
-					deletePost,
-					loginUser,
-				}}
-			>
-				<div className="app-wrapper">
-					<Router>
-						<Header />
-						<Routes />
-						<Footer />
-					</Router>
-				</div>
-			</AppProvider>
-		</SnackbarProvider>
+		<AppProvider
+			value={{
+				token,
+				loginCredentials,
+				posts,
+				addPost,
+				deletePost,
+				loginUser,
+				logOut,
+			}}
+		>
+			<div className="app-wrapper">
+				<Router>
+					<Header />
+					<Routes />
+					<Footer />
+				</Router>
+			</div>
+		</AppProvider>
 	);
 };
 

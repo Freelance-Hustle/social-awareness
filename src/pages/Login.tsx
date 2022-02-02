@@ -1,15 +1,23 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Avatar, IconButton } from '@material-ui/core';
 import './Login.scss';
 import { AppContext } from '../context';
 import { LoginProps } from '../App';
 
 const Login: React.FC = () => {
+	const navigate = useNavigate();
+	const { loginUser, token } = useContext(AppContext);
 	const [user, setUser] = useState<LoginProps>({
 		email: '',
 		password: '',
 	});
+
+	useEffect(() => {
+		if (token) {
+			navigate('/');
+		}
+	}, [token, navigate]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUser({
@@ -18,16 +26,17 @@ const Login: React.FC = () => {
 		});
 	};
 
-	const { loginUser } = useContext(AppContext);
-
 	const handleSubmit = async (
 		e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
 	) => {
 		try {
 			e.preventDefault();
-			// console.log('eee---', e);
 
 			await loginUser?.(user);
+
+			if (token) {
+				navigate('/');
+			}
 		} catch (err: any) {
 			console.log(err);
 		}
