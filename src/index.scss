@@ -51,9 +51,10 @@ a {
 // HEADER
 
 .header {
+	z-index: 100000;
 	.nav {
 		display: flex;
-
+	
 		.avatar-wrapper {
 			.avatar {
 				height: 30px;
